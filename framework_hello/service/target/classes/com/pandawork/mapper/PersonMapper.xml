@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pandawork.mapper.PersonMapper">
+
+    <resultMap id="person" type="com.pandawork.common.entity.person.Person" >
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="age" column="age"/>
+        <result property="sex" column="sex"/>
+    </resultMap>
+
+    <select id="listAllPerson" resultMap="person">
+        SELECT *
+        FROM `t_person`
+    </select>
+
+    <insert id="addPerson">
+        INSERT INTO `t_person`
+        ( `name`,`age`,  `sex`)
+        VALUES (#{person.name}, #{person.age}, #{person.sex})
+    </insert>
+    <!--public static String updatePerson = "UPDATE t_person SET name=?,age=?,sex=? WHERE id=?";-->
+    <update id="updatePerson">
+        UPDATE `t_person`
+        SET `name` = #{person.name},
+            `age` = #{person.age},
+            `sex` = #{person.sex}
+        WHERE `id` = #{person.id}
+    </update>
+    <!--public static String delPerson = "DELETE FROM t_person WHERE id=?";-->
+    <delete id="delPerson">
+        DELETE FROM `t_person`
+        WHERE `id` = #{id}
+    </delete>
+    <!--public static String selectPerson = "SELECT*FROM t_person WHERE id=?";-->
+    <!--<select id="selectPerson" resultMap="person" >-->
+        <!--SELECT *-->
+        <!--FROM `t_person`-->
+        <!--WHERE `id` = #{id}-->
+    <!--</select>-->
+    <!--public static String searchPerson = "SELECT * FROM t_person WHERE name LIKE ? OR age LIKE ? OR sex LIKE ? OR id LIKE ?";-->
+    <select id="searchPerson" resultMap="person">
+        SELECT *
+        FROM `t_person`
+        WHERE `name` LIKE '%${keyword}%'OR `age` LIKE '%${keyword}%'OR `sex` LIKE'%${keyword}%'
+    </select>
+
+    <select id="selectById" resultMap="person">
+        SELECT *
+        FROM `t_person`
+        WHERE `id` = #{id}
+    </select>
+</mapper>
